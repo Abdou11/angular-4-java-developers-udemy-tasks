@@ -15,13 +15,17 @@ export class TaskListComponent implements OnInit {
     }
 
     ngOnInit() {
-        return this.taskService.getTasks()
+        this.taskService.getTasks()
             .subscribe(
                 (tasks: any[]) => {
                     this.tasks = tasks
                 },
                 (error) => console.log(error)
             );
+
+        this.taskService.onTaskAdded.subscribe(
+            (task: Task) => this.tasks.push(task)
+        );
     }
 
     getDueDateLabel(task: Task) {
@@ -29,7 +33,6 @@ export class TaskListComponent implements OnInit {
     }
 
     onTaskChange(event, task) {
-        //this.taskService.saveTask(task,event.target.checked).subscribe();
-        console.log("Task has Changed");
+        this.taskService.saveTask(task,event.target.checked).subscribe()
     }
 }
