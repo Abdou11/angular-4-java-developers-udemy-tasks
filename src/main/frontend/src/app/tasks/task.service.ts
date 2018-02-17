@@ -13,7 +13,7 @@ export class TaskService {
     }
 
     getTasks() {
-        return this.http.get('/api/tasks').map(response => response.json);
+        return this.http.get('/api/tasks').map(response => response.json());
     }
 
     saveTask(task: Task, checked: boolean) {

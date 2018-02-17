@@ -9,7 +9,7 @@ import {Task} from "../task.model";
 })
 export class TaskAddComponent implements OnInit {
 
-    addTaskValue: string = null;s
+    addTaskValue: string = null;
 
   constructor(private taskService: TaskService) { }
 
@@ -17,13 +17,30 @@ export class TaskAddComponent implements OnInit {
   }
 
   onTaskAdd(event) {
-      let task: Task = new Task(event.target.value(),false);
+      let task: Task = new Task(event.target.value,false, this.getTodayAsString());
       this.taskService.addTask(task).subscribe(
           (newTask: Task) => {
-              this.addTaskValue = '';
+              this.addTaskValue = ' ';
               this.taskService.onTaskAdded.emit(newTask);
           }
       )
+  }
+
+  getTodayAsString() {
+      let today = new Date();
+      let dd: any = today.getDate();
+      let mm: any = today.getMonth() + 1;
+      let yyyy = today.getFullYear();
+
+      if (dd < 10) {
+          dd = '0' + dd;
+      }
+
+      if (mm < 10) {
+          mm = '0' + mm;
+      }
+
+      return mm + '/'+ dd + '' + '/' + yyyy;
   }
 
 }
